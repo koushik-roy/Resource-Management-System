@@ -1,0 +1,1012 @@
+openapi: 3.0.3
+info:
+  title: Resource Management System v1
+  description: |-
+    Resource Management System
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://petstore3.swagger.io/api/v3
+tags:
+  - name: resource
+    description: Everything about your resource (or) employee
+  - name: project
+    description: Projects Info
+  - name: customer
+    description: About customer
+  - name: businessUnit
+    description: About Business unit
+  - name: skill
+    description: Skill Sets
+  - name: role
+    description: Resource Role
+  - name: search
+    description: Search Crteria
+paths:
+  /resource:
+    post:
+      tags:
+        - resource
+      summary: Add a new resource
+      description: Add a new resource
+      operationId: addResource
+      requestBody:
+        description: Create a new resource
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Resource'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resource'          
+        '405':
+          description: Invalid input
+  /resource/{resourceId}:
+    put:
+      tags:
+        - resource
+      summary: Update an existing resource
+      description: Update an existing resource by employee Id
+      operationId: updateResource
+      parameters:
+        - name: resourceId
+          in: path
+          description: ID of resource to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update an existent resource info
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Resource'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Resource not found
+        '405':
+          description: Validation exception
+    get:
+      tags:
+        - resource
+      summary: Find resource by ID
+      description: Returns a single resource
+      operationId: getPetById
+      parameters:
+        - name: resourceId
+          in: path
+          description: ID of resource to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resource'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Resource'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Resource not found
+  /resource/project/{projectId}:
+    post:
+      tags:
+        - resource
+      summary: allocate resource to project
+      operationId: allocateRsourceToProject
+      parameters:
+        - name: projectId
+          in: path
+          description: ID of project to which resource must be allocated
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Create a new project
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResourceProject'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResourceProject'          
+        '400':
+          description: Invalid status value
+  /resource/skill/{skillId}:
+    post:
+      tags:
+        - resource
+      summary: assign skill_Set to resource
+      operationId: allocateSkillToResource
+      parameters:
+        - name: skillId
+          in: path
+          description: ID of skill set assigned to resource
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Assign skill to resource
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResourceSkill'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResourceSkill'          
+        '400':
+          description: Invalid status value
+  
+  /project:
+    post:
+      tags:
+        - project
+      summary: Add a new project
+      description: Add a new project
+      operationId: addProject
+      requestBody:
+        description: Create a new project
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'          
+        '405':
+          description: Invalid input
+    get:
+      tags:
+        - project
+      summary: Returns projects
+      description: Returns all listed project
+      operationId: getProjects
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project' 
+  /project/{projectId}:
+    put:
+      tags:
+        - project
+      summary: Update an existing project
+      description: Update an existing project with Customer ID or business unit
+      operationId: updateProject
+      parameters:
+        - name: projectId
+          in: path
+          description: ID of project to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update an existent project info
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Project not found
+        '405':
+          description: Validation exception
+    get:
+      tags:
+        - project
+      summary: Find project by ID
+      operationId: getProjectById
+      parameters:
+        - name: projectId
+          in: path
+          description: ID of project that needs to be fetched
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Project not found
+  /project/skill/{skillId}:
+    post:
+      tags:
+        - project
+      summary: assign skill_Set to project
+      operationId: allocateSkillToProject
+      parameters:
+        - name: skillId
+          in: path
+          description: ID of skill set assigned to project
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Assign skill to project
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectSkill'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProjectSkill'          
+        '400':
+          description: Invalid status value
+  /businessUnit:
+    post:
+      tags:
+        - businessUnit
+      summary: Add a new businessUnit
+      requestBody:
+        description: Create a new business unit
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BusinessUnit'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusinessUnit'          
+        '405':
+          description: Invalid input
+    get:
+      tags:
+        - businessUnit
+      summary: Finds all Business units
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BusinessUnit' 
+  /businessUnit/{unitId}:
+    get:
+      tags:
+        - businessUnit
+      summary: Find Business Unit  by ID
+      description: Returns a single resource
+      operationId: getBusinessById
+      parameters:
+        - name: unitId
+          in: path
+          description: ID of BusinessUnit
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusinessUnit'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BusinessUnit'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Business Unit not found
+  /customer:
+    post:
+      tags:
+        - customer
+      summary: Create customer
+      operationId: createCustomer
+      requestBody:
+        description: Created customer object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Customer'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Customer'
+    get:
+      tags:
+        - customer
+      summary: Finds all Customers
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+  /customer/{customerId}:
+    get:
+      tags:
+        - customer
+      summary: Find customer  by ID
+      description: Returns a single resource
+      operationId: getCustomerById
+      parameters:
+        - name: customerId
+          in: path
+          description: ID of Customer
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Customer not found
+  /customer/{category}:
+    get:
+      tags:
+        - customer
+      summary: Find customer  by Category
+      description: Returns a single resource
+      operationId: getCustomerByCategory
+      parameters:
+        - name: category
+          in: path
+          description: Category of Customer
+          required: true
+          schema:
+            type: string
+            example: BANKING
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Customer category not found
+  /skill:
+    post:
+      tags:
+        - skill
+      summary: Add a new skill
+      requestBody:
+        description: Create a skill set
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Skill'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Skill'          
+        '405':
+          description: Invalid input
+    get:
+      tags:
+        - skill
+      summary: Finds all skill_sets available
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Skill' 
+  /skill/{skillId}:
+    get:
+      tags:
+        - skill
+      summary: Get Skill by skillID
+      description: Returns skill , mapped to an skillId
+      operationId: getSkillById
+      parameters:
+        - name: skillId
+          in: path
+          description: ID of Skill
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Skill'          
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Skill Set not found
+  /role:
+    post:
+      tags:
+        - role
+      summary: Add a new role
+      requestBody:
+        description: Create a role
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Role'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'          
+        '405':
+          description: Invalid input
+    get:
+      tags:
+        - role
+      summary: Finds all skill sets available
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Role' 
+  /role/{roleId}:
+    get:
+      tags:
+        - role
+      summary: Get Role by roleID
+      description: Returns role , mapped to an roleId
+      operationId: getRoleById
+      parameters:
+        - name: roleId
+          in: path
+          description: ID of Role
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 10
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'          
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Role not found
+  /search/resource:
+    post:
+      tags:
+        - search
+      summary: Search Resource by Criteria
+      requestBody:
+        description: Serach Resource by filters. example- serach resource by project_id and role as senior software gives all resources in particular project as senior softwares
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResourceSearch'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Resource' 
+  /search/project:
+    post:
+      tags:
+        - search
+      summary: Search Project by Criteria
+      requestBody:
+        description: Search Project by filters. example- serach projects by business_unit and status as ACTIVE
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectSearch'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project' 
+
+  /user/register:
+    post:
+      tags:
+        - login API
+      summary: Creates user with given data
+      operationId: createUserWithInput
+      requestBody:
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          description: successful operation
+  /user/login:
+    get:
+      tags:
+        - login API
+      summary: Logs user into the system
+      description: Logs user into the system
+      operationId: loginUser
+      parameters:
+        - name: username
+          in: query
+          description: The user name for login
+          required: false
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password for login in clear text
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '400':
+          description: Invalid username/password supplied
+  /user/logout:
+    get:
+      tags:
+        - login API
+      summary: Logs out current logged in user session
+      description: ''
+      operationId: logoutUser
+      parameters: []
+      responses:
+        default:
+          description: successful operation
+  /user/{username}:
+    get:
+      tags:
+        - login API
+      summary: Get user by user name
+      description: ''
+      operationId: getUserByName
+      parameters:
+        - name: username
+          in: path
+          description: 'The name that needs to be fetched. Use user1 for testing. '
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+    put:
+      tags:
+        - login API
+      summary: Update user
+      description: This can only be done by the logged in user.
+      operationId: updateUser
+      parameters:
+        - name: username
+          in: path
+          description: name that need to be deleted
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update an existent user in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        default:
+          description: successful operation
+components:
+  schemas:
+    Resource:
+      required:
+        - employee_id
+        - peoplesoft_id
+      type: object
+      properties:
+        employee_id:
+          type: integer
+          format: int64
+          example: 3471
+        peoplesoft_id:
+          type: integer
+          format: int64
+          example: 123452345
+        role_id:
+          type: integer
+          format: int64
+          example: 123452345
+        projects:
+          type: array
+          items:
+            $ref: '#/components/schemas/Resource'
+        first_name:
+          type: string
+          description: first name of employee
+        last_name:
+          type: string
+          description: last name of employee
+          enum:
+            - available
+            - pending
+            - sold
+        mail_id:
+          type: string
+    ResourceSearch:
+      type: object
+      properties:
+        employee_id:
+          type: integer
+          format: int64
+          example: 3471
+        peoplesoft_id:
+          type: integer
+          format: int64
+          example: 123452345
+        role_id:
+          type: integer
+          format: int64
+          example: 123452345
+        project_id:
+          type: integer
+          format: int64
+          example: 123452345
+        skill_id:
+          type: integer
+          format: int64
+          example: 123452345
+        first_name:
+          type: string
+          description: first name of employee
+        last_name:
+          type: string
+          description: last name of employee
+          enum:
+            - available
+            - pending
+            - sold
+        mail_id:
+          type: string
+    ResourceProject:
+      type: object
+      properties:
+        employee_id:
+          type: integer
+          format: int64
+          example: 1
+        project_id:
+          type: integer
+          format: int64
+          example: 1
+        allocation:
+          type: integer
+          format: int64
+          example: 100
+    ResourceSkill:
+      type: object
+      properties:
+        employee_id:
+          type: integer
+          format: int64
+          example: 1
+        skill_id:
+          type: integer
+          format: int64
+          example: 1
+    Project:
+      type: object
+      properties:
+        project_id:
+          type: integer
+          format: int64
+          example: 1
+        customer_id:
+          type: integer
+          format: int64
+          example: 1
+        business_unit_id:
+          type: integer
+          format: int64
+          example: 1
+        project_description:
+          type: string
+          example: App Migration
+        status:
+          type: string
+          enum:
+           - ON_HOLD
+           - ACTIVE
+           - COMPLETED
+          example: ACTIVE
+        start_date:
+          type: string
+          pattern: /([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/
+          example: "2019-05-17"
+        end_date:
+          type: string
+          pattern: /([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/
+          example: "2022-05-17"
+    ProjectSkill:
+      type: object
+      properties:
+        project_id:
+          type: integer
+          format: int64
+          example: 1
+        skill_id:
+          type: integer
+          format: int64
+          example: 1
+        required:
+          type: integer
+          format: int64
+          example: 1
+    ProjectSearch:
+      type: object
+      properties:
+        project_id:
+          type: integer
+          format: int64
+          example: 1
+        customer_id:
+          type: integer
+          format: int64
+          example: 1
+        customer_category:
+          type: string
+          example: BANKING
+        business_unit_id:
+          type: integer
+          format: int64
+          example: 1
+        skill_id:
+          type: integer
+          format: int64
+          example: 123452345
+        status:
+          type: string
+          enum:
+           - ON_HOLD
+           - ACTIVE
+           - COMPLETED
+          example: ACTIVE
+        start_date:
+          type: string
+          pattern: /([0-9]{2})-(?:[0-9]{2})-([0-9]{4})/
+          example: "05-17-2019"
+        end_date:
+          type: string
+          pattern: /([0-9]{2})-(?:[0-9]{2})-([0-9]{4})/
+          example: "05-17-2022"
+    BusinessUnit:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        unit_code:
+          type: string
+          example: TDC
+        unit_description:
+          type: string
+          example: Transformation, DevOps & Cloud
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        customer_name:
+          type: string
+          example: Bank of America
+        category:
+          type: string
+          description: customer category
+          enum:
+            - BANKING
+            - RETAIL
+            - PHARMA
+          example: BANKING
+        description:
+          type: string
+          example: "Corporate Banking"
+    Role:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        code:
+          type: string
+          example: SR_SOFTWARE_ENGINEER
+        description:
+          type: string
+          example: Senior Software Engineer
+    Skill:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        code:
+          type: string
+          example: JAVA_BACKEND
+        description:
+          type: string
+          example: Java Backend Developer
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        username:
+          type: string
+          example: theUser
+        password:
+          type: string
+          example: '12345'
+        create_timestamp:
+          type: string
+          pattern: /([0-9]{2})-(?:[0-9]{2})-([0-9]{4})/
+          example: "05-17-2019"
+        userStatus:
+          type: boolean
+          description: User Status denotes if user Active
+          example: true
+    ApiResponse:
+      type: object
+      properties:
+        message:
+          type: string
+ 
