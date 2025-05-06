@@ -1,22 +1,38 @@
-# Resource-Management-System
+# Resource Management System
 
-This is a Java web application built using Spring Boot 2.7, Hibernate ORM, and SQL for data persistence. The project is managed with Maven and is compatible with Java 1.8.
+A full-stack web application to manage resources and assign them to projects. Built using **Spring Boot (Java)** for the backend and **React** for the frontend, this CRUD application allows users to add and manage resources, assign skills, and organize them into projects.
 
-## Technologies Used
+---
 
-- **Java**: 1.8  
-- **Spring Boot**: 2.7.x  
-- **Spring Web**: For building RESTful APIs  
-- **Hibernate**: For ORM (Object Relational Mapping)  
-- **SQL**: For database interactions  
-- **Maven**: For build and dependency management  
+## ✨ Features
 
-## Prerequisites
+- Add, view, update, and delete **resources**.
+- Add, view, update, and delete **projects**.
+- Assign **resources** to projects.
+- Define and manage **skills** for each resource.
+- Responsive UI with Material UI and Bootstrap.
+- RESTful API integration between client and server.
 
-- Java JDK 1.8 installed  
-- Maven 3.x installed  
-- A running SQL database (e.g., MySQL, PostgreSQL, etc.)  
-- IDE (e.g., IntelliJ IDEA, Eclipse) - optional
+---
+
+## 🛠️ Tech Stack
+
+### Backend
+- **Java 1.8**
+- **Spring Boot 2.7**
+- **Spring Web**
+- **Hibernate / JPA**
+- **SQL Database (e.g., MySQL or PostgreSQL)**
+- **Maven**
+
+### Frontend
+- **React 16**
+- **Axios**
+- **Material UI**
+- **Bootstrap**
+
+
+
 
 
 
